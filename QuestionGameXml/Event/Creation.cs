@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuestionGameXml.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,29 +9,32 @@ namespace QuestionGameXml.Event
 {
     public class Creation
     {
-        public static void CreateEvent()
+        public XMLService? _xmlService;
+        public void CreateEvent(XMLService xmlService)
         {
-            object NewQuestions = CreateNewQuestions();
+            _xmlService = xmlService;
+            string[] NewQuestions = CreateNewQuestions();
             SaveInformationToXml(NewQuestions);
-            Program.Start();           
+            Program.Start(xmlService);           
         }
 
 
 
-        static string CreateNewQuestions()
+        public string[] CreateNewQuestions()
         {
             Console.WriteLine("-Type your question");
             string? question = Console.ReadLine();
             Console.WriteLine(" -Type the answer");
             string? answer = Console.ReadLine();
+            string[] qa = { question, answer };
 
-            return question;
+            return qa;
 
         }
 
-        static void SaveInformationToXml(Object NewQuestions)
+        public void SaveInformationToXml(string[] NewQuestions)
         {
-
+            _xmlService.AddQuestionAndAnswer(NewQuestions[0], NewQuestions[1]);
         }
     }
 }

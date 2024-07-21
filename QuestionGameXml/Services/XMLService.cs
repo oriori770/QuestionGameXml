@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace QuestionGameXml.Services
 {
-    internal class XMLService
+    public class XMLService
     {
         private string XmlPath;
         //base directory path
@@ -153,6 +153,7 @@ namespace QuestionGameXml.Services
             {
                 xmlDoc.Load(fileStream);
             }
+
             return xmlDoc;
         }
     }

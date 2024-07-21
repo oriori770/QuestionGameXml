@@ -1,25 +1,31 @@
-﻿using System;
+﻿using QuestionGameXml.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace QuestionGameXml.Event
 {
     public class Game
     {
-
-        public static void AnswerEvent()
+        public XMLService xMLService;
+        public void AnswerEvent(XMLService XMLService)
         {
-            object ListOfQuestions = GetListOfQuestions();
+            xMLService = XMLService; 
+            XmlDocument ListOfQuestions = GetListOfQuestions();
+            PrintListOfQuestions(ListOfQuestions);
         }
-        static void PrintListOfQuestions(List<object> Questions)
+        static void PrintListOfQuestions(XmlDocument Questions)
         {
             Console.WriteLine("Type a number to select a question");
-            foreach (object Question in Questions)
+            foreach (XmlNode Question in Questions.DocumentElement)
             {
+                Console.WriteLine("enter XmlDocument");
+                Console.WriteLine(Question.SelectSingleNode("Question").InnerText);
             }
-            Console.WriteLine("1. what is foo?\r\n2. who is bar?");
+            //Console.WriteLine("1. what is foo?\r\n2. who is bar?");
             string? QuestionNumber = Console.ReadLine();
             AnswerQuestions(QuestionNumber);
         }
@@ -46,9 +52,10 @@ namespace QuestionGameXml.Event
         {
             return true;
         }
-        static List<object> GetListOfQuestions()
+        public XmlDocument GetListOfQuestions()
         {
-            return new List<object>();
+            XmlDocument Questions = xMLService.ReadXML();
+            return Questions;
         }
 
     }
